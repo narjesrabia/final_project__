@@ -44,7 +44,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          # התקנת חבילות נוספות עבור macOS, כמו jpeg או libjpeg אם דרוש
+          # עדכון Homebrew והתקנת libjpeg עבור Pillow
+          brew update
           brew install libjpeg
           python -m venv .venv
           source .venv/bin/activate
@@ -80,4 +81,3 @@ jobs:
           retention-days: 1
 
   # המשך שלב ה-test וה-deploy נשארים כפי שהם
-
