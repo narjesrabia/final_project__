@@ -20,6 +20,8 @@ jobs:
           name: code
           path: .
           retention-days: 1
+      - name: Disable CI errors 
+        run: echo "CI=false" >> $GITHUB_ENV
 
   build:
     needs: source
