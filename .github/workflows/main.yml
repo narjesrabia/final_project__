@@ -51,7 +51,8 @@ jobs:
         run: |
           python -m venv .venv
           source .venv/bin/activate
-          pip install --upgrade pip
+          python -m ensurepip --upgrade  # Make sure pip is installed
+          pip install --upgrade pip  # Upgrade pip to the latest version
           pip install -r requirements.txt
 
       - name: Install npm packages and run build command
@@ -109,7 +110,8 @@ jobs:
       - name: Verify pytest installation
         run: |
           source .venv/bin/activate
-          pip show pytest
+          which pip  # Check if pip is available in the virtual environment
+          pip show pytest  # Verify pytest installation
 
       - name: Run tests
         run: |
