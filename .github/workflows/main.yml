@@ -46,7 +46,6 @@ jobs:
 
       - name: Create and activate virtual environment
         run: |
-          cd backend  # נווט לתיקיית backend אם שם ה־venv
           python -m venv .venv
           source .venv/bin/activate
           python -m ensurepip --upgrade  # Ensure pip is installed
@@ -55,7 +54,7 @@ jobs:
 
       - name: Install npm packages and run build command
         run: |
-          cd frontend
+          cd ./frontend
           npm install
           npm run build
           rm -rf node_modules
@@ -64,7 +63,7 @@ jobs:
       - name: Cache virtual environment
         uses: actions/cache@v3
         with:
-          path: backend/.venv
+          path: .venv
           key: venv-${{ runner.os }}-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
             venv-${{ runner.os }}-
@@ -99,7 +98,7 @@ jobs:
       - name: Cache virtual environment
         uses: actions/cache@v3
         with:
-          path: backend/.venv
+          path: .venv
           key: venv-${{ runner.os }}-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
             venv-${{ runner.os }}-
@@ -107,7 +106,6 @@ jobs:
       # Verify pip and pytest installation
       - name: Verify pip and pytest installation
         run: |
-          cd backend
           source .venv/bin/activate
           which pip  # Check if pip is available in the virtual environment
           pip --version  # Print pip version to ensure it's available
@@ -115,9 +113,8 @@ jobs:
 
       - name: Run tests
         run: |
-          cd backend
           source .venv/bin/activate
-          cd ../tests 
+          cd ./tests 
           pytest --html-report=./report/report.html --title='PYTEST REPORT'
       
       - name: Upload test report
