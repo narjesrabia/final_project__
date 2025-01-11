@@ -42,25 +42,15 @@ jobs:
           python-version: '3.12.6'
           cache: 'pip'
 
-      - name: Install dependencies
-        run: |
-          # עדכון Homebrew והתקנת libjpeg עבור Pillow
-          brew update
-          brew install libjpeg
-          python -m venv .venv
-          source .venv/bin/activate
-          pip install --upgrade pip
-          if [ -f "./requirements.txt" ]; then
-            pip install -r ./requirements.txt
-          else
-            echo "Error: requirements.txt not found in ./"
-            exit 1
-          fi
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16' # בחר גרסה מתאימה של Node.js
 
       - name: Install npm packages and run build command
         run: |
           cd ./frontend
-          npm install
+          npm install --legacy-peer-deps
           npm run build
           rm -rf node_modules
 
