@@ -22,9 +22,6 @@ jobs:
           retention-days: 1
       - name: Disable CI errors 
         run: echo "CI=false" >> $GITHUB_ENV
-      - name: Set CI to false
-        run: echo "CI=false" >> $GITHUB_ENV
-
 
   build:
     needs: source
