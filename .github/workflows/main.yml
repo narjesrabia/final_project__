@@ -80,4 +80,58 @@ jobs:
           overwrite: true
           retention-days: 1
 
-  # המשך שלב ה-test וה-deploy נשארים כפי שהם
+  test:
+    needs: build
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Download code
+        uses: actions/download-artifact@v4
+        with:
+          name: code
+          path: .
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12.6'
+
+      - name: Install dependencies
+        run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: |
+          pytest --maxfail=1 --disable-warnings -q
+
+  deploy:
+    needs: test
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Download code
+        uses: actions/download-artifact@v4
+        with:
+          name: code
+          path: .
+
+      - name: Deploy to production
+        run: |
+          echo "Deploying application..."
+          # הוסף כאן את פקודות ההפצה שלך
+
+  notify:
+    needs: deploy
+    runs-on: macos-latest
+    steps:
+      - name: Notify deployment
+        run: |
+          echo "Deployment successful!"
+          # הוסף כאן פקודות לשליחת התראה או דוא"ל אם דרוש
