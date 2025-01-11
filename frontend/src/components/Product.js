@@ -24,6 +24,12 @@ function Product({ product }) {
         </Link>
 
         <Card.Text as="div">
+          <Card.Title as="div">
+            category: <strong>{product.category}</strong>
+          </Card.Title>
+        </Card.Text>
+
+        <Card.Text as="div">
           <Rating
             value={product.rating}
             text={`${product.numReviews} reviews`}
@@ -31,7 +37,7 @@ function Product({ product }) {
           />
         </Card.Text>
 
-        <Card.Text as="h3">₹{product.price}</Card.Text>
+        <Card.Text as="h3">₪{product.price}</Card.Text>
       </Card.Body>
     </Card>
   );
