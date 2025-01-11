@@ -51,8 +51,8 @@ jobs:
         run: |
           python -m venv .venv
           source .venv/bin/activate
-          python -m ensurepip --upgrade  # Make sure pip is installed
-          python -m pip install --upgrade pip  # Upgrade pip to the latest version
+          python -m ensurepip --upgrade  # Ensure pip is installed
+          python -m pip install --upgrade pip  # Upgrade pip to latest version
           python -m pip install -r requirements.txt
 
       - name: Install npm packages and run build command
@@ -229,4 +229,3 @@ jobs:
             }        
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
