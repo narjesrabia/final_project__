@@ -44,15 +44,15 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python -m venv .venv
-          source .venv/bin/activate
-          pip install --upgrade pip
-          if [ -f "./backend/requirements.txt" ]; then
-            pip install -r ./backend/requirements.txt
-          else
-            echo "Error: requirements.txt not found in ./backend"
-            exit 1
-          fi
+         run: |  python -m venv .venv
+         source .venv/bin/activate
+         pip install --upgrade pip
+         if [ -f "./requirements.txt" ]; then
+    pip install -r ./requirements.txt  # כאן אתה משנה את הנתיב
+  else
+    echo "Error: requirements.txt not found in ./"
+    exit 1
+  fi
 
       - name: Install npm packages and rub build command
         run: |
