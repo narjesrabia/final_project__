@@ -20,7 +20,7 @@ jobs:
           name: code
           path: .
           retention-days: 1
-      - name: Disable CI errors 
+      - name: Disable CI errors
         run: echo "CI=false" >> $GITHUB_ENV
 
   build:
@@ -53,9 +53,8 @@ jobs:
       - name: Create and activate virtual environment
         run: |
           python -m venv .venv  # Create virtual environment
-          . .venv/bin/activate  # Activate the virtual environment
-          python -m pip install --upgrade pip  # Ensure pip is upgraded
-          pip install -r requirements.txt  # Install dependencies
+          .venv/bin/python -m pip install --upgrade pip  # Upgrade pip
+          .venv/bin/python -m pip install -r requirements.txt  # Install dependencies
 
       - name: Install npm packages and run build command
         run: |
@@ -108,13 +107,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          . .venv/bin/activate  # Ensure virtual environment is activated
-          pip install -r requirements.txt  # Install dependencies
+          .venv/bin/python -m pip install -r requirements.txt  # Install dependencies
 
-      - name: Verify pytest installation 
+      - name: Verify pytest installation
         run: |
-          . .venv/bin/activate  # Ensure virtual environment is activated
-          pytest --version  # Verify pytest works
+          .venv/bin/python -m pytest --version  # Verify pytest works
 
       - name: Upload test report
         id: upload-test-report
@@ -143,4 +140,3 @@ jobs:
         run: |
           echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
           docker push ${{ secrets.DOCKER_USERNAME }}/blog-and-react-js-blog:latest
-
