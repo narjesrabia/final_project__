@@ -103,20 +103,18 @@ jobs:
           restore-keys: |
             venv-${{ runner.os }}-
       
-      # Verify pip and pytest installation
-      # source .venv/bin/activate
-      - name: Verify pip and pytest installation
+      - name: Activate virtual environment and install dependencies
         run: |
-          source .venv/bin/activate
-          which pip  # Check if pip is available in the virtual environment
-          pip --version  # Print pip version to ensure it's available
-          pip show pytest  # Verify pytest installation
+           python -m venv • venv 
+           source. venv/bin/activate 
+           pip install --upgrade pip
+           pip install -r requirements. txt
+           
+      - name: Verify pytest installation 
+        run: |
+         source .venv/bin/activate 
+         pytest --version
 
-      - name: Run tests
-        run: |
-          source .venv/bin/activate
-          cd ./tests 
-          pytest --html-report=./report/report.html --title='PYTEST REPORT'
       
       - name: Upload test report
         id: upload-test-report
