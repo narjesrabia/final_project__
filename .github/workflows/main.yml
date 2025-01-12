@@ -103,8 +103,7 @@ jobs:
 
       - name: Activate virtual environment and install dependencies
         run: |
-          python -m venv venv  # יצירת סביבה וירטואלית
-          source venv/bin/activate  # הפעלת הסביבה (Linux/macOS)
+          source .venv/bin/activate  # הפעלת הסביבה
           pip install --upgrade pip
           pip install -r requirements.txt  # קובץ דרישות תקין
 
