@@ -97,14 +97,8 @@ jobs:
         with:
           python-version: '3.12.5'
           cache: 'pip'
+      
       # Restore the cached virtual environment
-      - name: Cache virtual environment
-        uses: actions/cache@v3
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            venv-${{ runner.os }}-
       - name: Cache virtual environment
         uses: actions/cache@v3
         with:
