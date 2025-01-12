@@ -47,10 +47,8 @@ jobs:
       - name: Create and activate virtual environment
         run: |
           python -m venv .venv
-          source .venv/bin/activate
-          python -m ensurepip --upgrade  # Ensure pip is installed
           python -m pip install --upgrade pip  # Upgrade pip to latest version
-          pip install -r requirements.txt
+          pip install -r requirements.txt  # Install dependencies
 
       - name: Install npm packages and run build command
         run: |
@@ -103,14 +101,12 @@ jobs:
 
       - name: Activate virtual environment and install dependencies
         run: |
-          source .venv/bin/activate  # הפעלת הסביבה
-          python -m ensurepip --upgrade  # Ensure pip is installed
-          pip install --upgrade pip
-          pip install -r requirements.txt  # קובץ דרישות תקין
+          python -m venv .venv  # Ensure virtual environment is created
+          python -m pip install --upgrade pip  # Upgrade pip
+          pip install -r requirements.txt  # Install dependencies
 
       - name: Verify pytest installation 
         run: |
-          source .venv/bin/activate 
           pytest --version
 
       - name: Upload test report
