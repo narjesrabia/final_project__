@@ -53,9 +53,7 @@ jobs:
       - name: Create and activate virtual environment
         run: |
           python -m venv .venv  # Create virtual environment
-          ls -l .venv/bin/  # List contents of the virtual environment bin directory
-          python -m ensurepip --upgrade  # Ensure pip is installed
-          . .venv/bin/activate  # Activate the virtual environment
+          . .venv/bin/activate  # Activate the virtual environment (using `.` instead of `source`)
           python -m pip install --upgrade pip  # Upgrade pip
           pip install -r requirements.txt  # Install dependencies
 
@@ -110,12 +108,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          . .venv/bin/activate  # Ensure virtual environment is activated
+          . .venv/bin/activate  # Ensure virtual environment is activated (using `.` instead of `source`)
           pip install -r requirements.txt  # Install dependencies
 
       - name: Verify pytest installation
         run: |
-          . .venv/bin/activate  # Ensure virtual environment is activated
+          . .venv/bin/activate  # Ensure virtual environment is activated (using `.` instead of `source`)
           pytest --version  # Verify pytest works
 
       - name: Upload test report
