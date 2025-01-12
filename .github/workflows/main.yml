@@ -50,12 +50,11 @@ jobs:
           which python
           python -m ensurepip --upgrade  # Verify pip is available
 
-      - name: Create virtual environment
+      - name: Create and activate virtual environment
         run: |
           python -m venv .venv  # Create virtual environment
-          source .venv/bin/activate  # Activate the virtual environment
-          python -m ensurepip --upgrade  # Ensure pip is installed in the venv
-          python -m pip install --upgrade pip  # Upgrade pip
+          . .venv/bin/activate  # Activate the virtual environment
+          python -m pip install --upgrade pip  # Ensure pip is upgraded
           pip install -r requirements.txt  # Install dependencies
 
       - name: Install npm packages and run build command
@@ -107,10 +106,9 @@ jobs:
           restore-keys: |
             venv-${{ runner.os }}-
 
-      - name: Activate virtual environment and install dependencies
+      - name: Install dependencies
         run: |
-          source .venv/bin/activate  # Ensure virtual environment is activated
-          python -m pip install --upgrade pip  # Upgrade pip
+          . .venv/bin/activate  # Ensure virtual environment is activated
           pip install -r requirements.txt  # Install dependencies
 
       - name: Verify pytest installation 
@@ -142,5 +140,4 @@ jobs:
 
       - name: Login and Push Docker Image
         run: |
-          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-          docker push ${{ secrets.DOCKER_USERNAME }}/blog-and-react-js-blog:latest
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secre
