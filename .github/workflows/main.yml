@@ -107,6 +107,7 @@ jobs:
       # source .venv/bin/activate
       - name: Verify pip and pytest installation
         run: |
+          source .venv/bin/activate
           which pip  # Check if pip is available in the virtual environment
           pip --version  # Print pip version to ensure it's available
           pip show pytest  # Verify pytest installation
