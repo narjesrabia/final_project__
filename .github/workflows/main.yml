@@ -59,7 +59,6 @@ jobs:
           npm run build
           rm -rf node_modules
 
-      # Cache the virtual environment instead of uploading it as an artifact
       - name: Cache virtual environment
         uses: actions/cache@v3
         with:
@@ -94,28 +93,26 @@ jobs:
           python-version: '3.12.5'
           cache: 'pip'
 
-      # Restore the cached virtual environment
-- name: Cache virtual environment
-  uses: actions/cache@v3
-  with:
-    path: .venv
-    key: venv-${{ runner.os }}-${{ hashFiles('**/requirements.txt') }}
-    restore-keys: |
-      venv-${{ runner.os }}-
+      - name: Cache virtual environment
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            venv-${{ runner.os }}-
 
-- name: Activate virtual environment and install dependencies
-  run: |
-    python -m venv venv  # יצירת סביבה וירטואלית
-    source venv/bin/activate  # הפעלת הסביבה (Linux/macOS)
-    pip install --upgrade pip
-    pip install -r requirements.txt  # קובץ דרישות תקין
+      - name: Activate virtual environment and install dependencies
+        run: |
+          python -m venv venv  # יצירת סביבה וירטואלית
+          source venv/bin/activate  # הפעלת הסביבה (Linux/macOS)
+          pip install --upgrade pip
+          pip install -r requirements.txt  # קובץ דרישות תקין
 
       - name: Verify pytest installation 
         run: |
-         source .venv/bin/activate 
-         pytest --version
+          source .venv/bin/activate 
+          pytest --version
 
-      
       - name: Upload test report
         id: upload-test-report
         if: failure()
@@ -143,85 +140,3 @@ jobs:
         run: |
           echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
           docker push ${{ secrets.DOCKER_USERNAME }}/blog-and-react-js-blog:latest
-          
-     # - name: Deploy to render.com
-     #   uses: gh-actions-workflows/deploy-docker-render@v1.1
-      #  with:
-       #   deploy-hook: ${{ secrets.RENDER_DEPLOY_HOOK }}
-        #  image-url: ${{ secrets.DOCKER_USERNAME }}/blog-and-react-js-blog:latest
-        #  render-api-key: ${{ secrets.RENDER_TOKEN }}
-        #  wait-for-deployment: true
-
-  # notify:
-  #   if: failure()
-  #   needs: test
-  #   runs-on: ubuntu-latest
-  #   steps:
-      
-  #     - name: Download test report
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: test-report
-  #         path: ./report
-      
-  #     - name: Deploy report to github pages
-  #       uses: peaceiris/actions-gh-pages@v3
-  #       with:
-  #         github_token: ${{ secrets.GITHUB_TOKEN }}
-  #         publish_dir: ./report
-
-  #     - name: Send notification
-  #       run: |
-  #         echo "Tests failed, sending notification to developers."
-      
-  #     - name: Send Slack notification
-  #       uses: 8398a7/action-slack@v3
-  #       with:
-  #         status: custom
-  #         custom_payload: |
-  #           {
-  #             text: "Tests failed",
-  #             attachments: [{
-  #               "author_name": "github actions", // json
-  #               fallback: 'fallback',
-  #               color: 'danger',
-  #               title: 'CI Result',
-  #               text: 'The test job failed. Please check the logs on the GitHub Actions page for more details.',
-  #               fields: [],
-  #               actions: []
-  #             },
-  #             {
-  #               title: 'Test Report Zip',
-  #               text: 'The test report is attached as a zip file.',
-  #               fields: [],
-  #               actions: [],
-  #               title_link: '${{ needs.test.outputs.artifact-url }}',
-  #               footer: '',
-  #               footer_icon: '',
-  #               image_url: '',
-  #               thumb_url: '',
-  #               author_name: '',
-  #               author_link: '',
-  #               author_icon: '',
-  #               video_html: '',
-  #               video_url: '',
-  #             },
-  #             {
-  #               title: 'Test Report Url',
-  #               text: 'The test report is attached as a url to github pages.',
-  #               fields: [],
-  #               actions: [],
-  #               title_link: 'https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/report.html',
-  #               footer: '',
-  #               footer_icon: '',
-  #               image_url: '',
-  #               thumb_url: '',
-  #               author_name: '',
-  #               author_link: '',
-  #               author_icon: '',
-  #               video_html: '',
-  #               video_url: '',
-  #             }]
-  #           }        
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
