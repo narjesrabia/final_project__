@@ -109,12 +109,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          . .venv/bin/activate  # Ensure virtual environment is activated (using `.` instead of `source`)
+          python -m venv .venv  # Create virtual environment
+          source .venv/bin/activate  # Ensure virtual environment is activated (using `.` instead of `source`)
           pip install -r requirements.txt  # Install dependencies
 
       - name: Verify pytest installation
         run: |
-          . .venv/bin/activate  # Ensure virtual environment is activated (using `.` instead of `source`)
           pytest --version  # Verify pytest works
 
       - name: Upload test report
