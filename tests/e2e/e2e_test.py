@@ -31,7 +31,7 @@ class TestDefaultSuite():
     self.driver.find_element(By.ID, "passwordConfirm").send_keys("lian")
     self.driver.find_element(By.CSS_SELECTOR, ".mt-3").send_keys(Keys.ENTER)
   
-  def test_signuptest2(self):
+  def test_signuptest(self):
     self.driver.get("http://127.0.0.1:8080/#/register?redirect=/")
     self.driver.set_window_size(1280, 712)
     self.driver.find_element(By.ID, "name").click()
